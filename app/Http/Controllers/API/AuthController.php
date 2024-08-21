@@ -68,6 +68,7 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->first();
         if ($user && Hash::check($validated['password'], $user->password)) {
             $token = $user->createToken($user->name.'AuthToken')->plainTextToken;
+
             return new UserResource($user, $token, 'Bearer', 'Login successful');
         } else {
             return response()->json([
