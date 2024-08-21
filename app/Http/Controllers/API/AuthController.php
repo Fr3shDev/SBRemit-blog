@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\LoginUserRequest;
 use App\Http\Requests\API\RegisterUserRequest;
 use App\Http\Resources\UserResource;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
@@ -57,6 +59,20 @@ class AuthController extends Controller
                     'message' => 'Account creation failed, please try again later',
                 ], 500);
             }
+        }
+    }
+
+    public function login(LoginUserRequest $request)
+    {
+        $validated = $request->validated();
+        $user = User::where('email', $validated['email'])->first();
+        if ($user && Hash::check($validated['password'], $user->password)) {
+            $token = $user->createToken($user->name.'AuthToken')->plainTextToken;
+            return new UserResource($user, $token, 'Bearer', 'Login successful');
+        } else {
+            return response()->json([
+                'message' => 'Invalid email or password',
+            ], 401);
         }
     }
 }
