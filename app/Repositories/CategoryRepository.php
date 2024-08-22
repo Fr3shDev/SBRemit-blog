@@ -30,7 +30,7 @@ class CategoryRepository implements CategoryRepositoryInterface
         return $category;
     }
 
-    public function deleteCategory($categoryId)
+    public function categoryToBeDeleted($categoryId)
     {
         return Category::with('blogPosts')->findOrFail($categoryId);
     }

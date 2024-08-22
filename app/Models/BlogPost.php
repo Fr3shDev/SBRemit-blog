@@ -10,6 +10,8 @@ class BlogPost extends Model
 {
     use HasFactory;
 
+    public $guarded = ['id'];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

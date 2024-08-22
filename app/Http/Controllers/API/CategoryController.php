@@ -43,13 +43,11 @@ class CategoryController extends Controller
             DB::commit();
 
             return new CategoryResource($category);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
 
-            // Log the exception for debugging purposes
             Log::error('Category creation failed: '.$e->getMessage());
 
-            // Return a generic error message to the user with a 500 status code
             return response()->json([
                 'status' => false,
                 'message' => 'Category creation failed, please try again later.',
@@ -106,12 +104,19 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        $category = $this->categoryRepository->deleteCategory($id);
-        if ($category->blogPosts->isNotEmpty()) {
-            return response()->json(['status' => false, 'message' => 'Cannot delete a category with blog posts']);
-        }
-        $category->delete();
+        try {
+            $category = $this->categoryRepository->categoryToBeDeleted($id);
+            if ($category->blogPosts->isNotEmpty()) {
+                return response()->json(['status' => false, 'message' => 'Cannot delete a category with blog posts']);
+            }
+            $category->delete();
 
-        return response()->json(['status' => true, 'message' => 'Category deleted successfully']);
+            return response()->json(['status' => true, 'message' => 'Category deleted successfully']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['status' => false, 'message' => 'Category not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Something went wrong, please try again later'], 500);
+
+        }
     }
 }

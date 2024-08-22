@@ -4,7 +4,7 @@ namespace App\Interfaces;
 
 interface CategoryRepositoryInterface
 {
-    public function getCategories(?array $filters = null);
+    public function getCategories();
 
     public function getCategory($id);
 
@@ -12,5 +12,5 @@ interface CategoryRepositoryInterface
 
     public function updateCategory(array $details, $id);
 
-    public function deleteCategory($id);
+    public function categoryToBeDeleted($id);
 }
