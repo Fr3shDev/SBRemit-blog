@@ -25,24 +25,29 @@ jobs:
     - name: Set up Docker
       run: |
         docker version
+        docker-compose version || true # Ensure docker-compose command isn't present
+    - name: Install Docker Compose
+      run: |
+        curl -L "https://github.com/docker/compose/releases/download/2.20.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
         docker-compose version
     - name: Install Dependencies
       run: |
         composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Start Docker Compose
+    - name: Start Sail
       run: |
-        docker-compose up -d
+        ./vendor/bin/sail up -d
     - name: Wait for MySQL
       run: |
-        until docker-compose exec -T mysql mysqladmin ping -h"localhost" --silent; do
+        until ./vendor/bin/sail exec -T mysql mysqladmin ping -h"localhost" --silent; do
           echo "Waiting for database..."
           sleep 1
         done
     - name: Set Up Database
       run: |
-        docker-compose exec -T laravel.test php artisan migrate --seed
+        ./vendor/bin/sail artisan migrate --seed
     - name: Execute tests (Unit and Feature tests)
       run: |
-        docker-compose exec -T laravel.test ./vendor/bin/sail test
+        ./vendor/bin/sail test
