@@ -12,10 +12,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @tags Blog Posts
+ */
 class BlogPostController extends Controller
 {
     public function __construct(private BlogPostRepositoryInterface $blogPostRepository) {}
 
+    /**
+     * Get All Blog Posts
+     *
+     * @authenticated
+     */
     public function index()
     {
         try {
@@ -30,6 +38,11 @@ class BlogPostController extends Controller
         }
     }
 
+    /**
+     * Get All Published Blog Posts
+     *
+     * @authenticated
+     */
     public function publishedBlogPosts()
     {
         try {
@@ -44,6 +57,11 @@ class BlogPostController extends Controller
         }
     }
 
+    /**
+     * Get All Draft Blog Posts
+     *
+     * @authenticated
+     */
     public function draftBlogPosts()
     {
         try {
@@ -58,6 +76,11 @@ class BlogPostController extends Controller
         }
     }
 
+    /**
+     * Create a Blog Post
+     *
+     * @authenticated
+     */
     public function store(StoreBlogPostRequest $request)
     {
         $validated = $request->validated();
@@ -87,6 +110,11 @@ class BlogPostController extends Controller
         }
     }
 
+    /**
+     * Get a Blog Post
+     *
+     * @authenticated
+     */
     public function show($id)
     {
         try {
@@ -100,6 +128,11 @@ class BlogPostController extends Controller
         return new BlogPostResource($blogPost);
     }
 
+    /**
+     * Update a Blog Post
+     *
+     * @authenticated
+     */
     public function update(UpdateBlogPostRequest $request, $id)
     {
         $validated = $request->validated();
@@ -133,6 +166,11 @@ class BlogPostController extends Controller
         }
     }
 
+    /**
+     * Delete a Blog Post
+     *
+     * @authenticated
+     */
     public function delete($id)
     {
         try {

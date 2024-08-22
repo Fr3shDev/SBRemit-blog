@@ -12,10 +12,22 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @tags Blog Post Categories
+ */
 class CategoryController extends Controller
 {
     public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
 
+    /**
+     * Get All Categories
+     *
+     * Getting all blog post categories
+     *
+     * @authenticated
+     *
+     * @security BearerAuth
+     */
     public function index()
     {
         try {
@@ -30,6 +42,11 @@ class CategoryController extends Controller
         return CategoryResource::collection($categories);
     }
 
+    /**
+     * Create Category
+     *
+     * @authenticated
+     */
     public function store(StoreCategoryRequest $request)
     {
         $validated = $request->validated();
@@ -55,6 +72,11 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Get a Category
+     *
+     * @authenticated
+     */
     public function show($id)
     {
         try {
@@ -70,6 +92,11 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
+    /**
+     * Update a Category
+     *
+     * @authenticated
+     */
     public function update(UpdateCategoryRequest $request, $id)
     {
         $validated = $request->validated();
@@ -102,6 +129,11 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Delete a Category
+     *
+     * @authenticated
+     */
     public function delete($id)
     {
         try {

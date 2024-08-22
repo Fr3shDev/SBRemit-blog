@@ -8,10 +8,14 @@ use App\Http\Requests\API\RegisterUserRequest;
 use App\Http\Resources\UserResource;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @tags User Authentication
+ */
 class AuthController extends Controller
 {
     public function __construct(
@@ -19,6 +23,13 @@ class AuthController extends Controller
 
     ) {}
 
+    /**
+     * User Registration
+     *
+     * Registering new users in the system
+     *
+     * @unauthenticated
+     */
     public function register(RegisterUserRequest $request)
     {
         $validated = $request->validated();
@@ -62,6 +73,13 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * User Login
+     *
+     * Authorizing users to have access
+     *
+     * @unauthenticated
+     */
     public function login(LoginUserRequest $request)
     {
         $validated = $request->validated();
@@ -75,5 +93,24 @@ class AuthController extends Controller
                 'message' => 'Invalid email or password',
             ], 401);
         }
+    }
+
+    /**
+     * User Logout
+     *
+     * This endpoint allows the user to log out by invalidating the current authentication token.
+     *
+     * @authenticated
+     */
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        if ($user) {
+            $user->tokens()->delete();
+
+            return response()->json(['status' => 'true', 'message' => 'Logged out successfully'], 200);
+        }
+
+        return response()->json(['status' => 'failed', 'message' => 'No user found to logout'], 404);
     }
 }
