@@ -22,14 +22,10 @@ jobs:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
         php-version: '8.0'
-    - name: Set up Docker
-      run: |
-        docker version
-        docker-compose version || true # Ensure docker-compose command isn't present
     - name: Install Docker Compose
       run: |
-        curl -L "https://github.com/docker/compose/releases/download/2.20.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
-        chmod +x /usr/local/bin/docker-compose
+        sudo curl -L "https://github.com/docker/compose/releases/download/2.20.0/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
         docker-compose version
     - name: Install Dependencies
       run: |
