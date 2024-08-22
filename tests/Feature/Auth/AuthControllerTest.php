@@ -1,36 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\AuthController;
-use App\Http\Requests\API\LoginUserRequest;
-use App\Http\Requests\API\RegisterUserRequest;
-use App\Interfaces\UserRepositoryInterface;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\User;
 
-// test('register creates a new user successfully', function () {
-//     $userRepo = $this->mock(UserRepositoryInterface::class);
-//     $userRepo->shouldReceive('createUser')->once()->andReturn(User::factory()->make());
-
-//     $request = RegisterUserRequest::create('/register', 'POST', [
-//         'name' => 'Test User',
-//         'email' => 'test@example.com',
-//         'phone' => '1234567890',
-//         'password' => 'password',
-//         'password_confirmation' => 'password',
-//     ]);
-
-//     $response = app(AuthController::class)->register($request);
-
-//     $response->assertStatus(200)
-//         ->assertJson([
-//             'message' => 'Account created successfully',
-//             'attributes' => [
-//                 'name' => 'Test User',
-//                 'email' => 'test@example.com',
-//             ]
-//         ]);
-// });
 
 test('registers a new user successfully', function () {
     // Prepare the db
