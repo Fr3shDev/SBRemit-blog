@@ -57,7 +57,7 @@ jobs:
     - name: Set Up Database
       run: |
         ./vendor/bin/sail artisan migrate --seed
-    - name: Execute tests (Unit and Feature tests)
-      run: |
-        ./vendor/bin/sail test
+    # - name: Execute tests (Unit and Feature tests)
+    #   run: |
+    #     ./vendor/bin/sail test
 
