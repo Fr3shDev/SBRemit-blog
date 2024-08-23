@@ -46,6 +46,11 @@ jobs:
         composer install --no-interaction --prefer-dist
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Start Sail
+      run: |
+        ./vendor/bin/sail up -d
+    - name: Wait for Sail to Be Ready
+      run: sleep 60  # Adjust this if necessary
     - name: Sleep for MySQL to Start
       run: sleep 60  # Adjust this if necessary
     - name: Check MySQL Logs
