@@ -55,7 +55,7 @@ test('create blog post successfully', function () {
         'status' => 'published',
     ];
 
-    $response = $this->post('/api/blog-posts/store', $data);
+    $response = $this->post('/api/blog-posts', $data);
 
     $response->assertStatus(201);
     $this->assertDatabaseHas('blog_posts', ['title' => 'New Blog Post']);

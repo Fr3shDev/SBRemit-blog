@@ -24,7 +24,7 @@ test('create category successfully', function () {
         'name' => 'New Category',
     ];
 
-    $response = $this->post('/api/categories/store', $data);
+    $response = $this->post('/api/categories', $data);
 
     $response->assertStatus(201);
 

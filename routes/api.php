@@ -18,7 +18,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::controller(CategoryController::class)->prefix('categories')->group(function () {
         Route::get('/', 'index');
-        Route::post('/store', 'store');
+        Route::post('/', 'store');
         Route::get('/{id}', 'show');
         Route::put('/update/{id}', 'update');
         Route::delete('/delete/{id}', 'delete');
@@ -28,32 +28,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/', 'index');
         Route::get('/published', 'publishedBlogPosts');
         Route::get('/draft', 'draftBlogPosts');
-        Route::post('/store', 'store');
+        Route::post('/', 'store');
         Route::get('/{id}', 'show');
         Route::patch('/update/{id}', 'update');
         Route::delete('/delete/{id}', 'delete');
     });
-
-    // Route::controller(ProfileController::class)->prefix('profile')->group(function () {
-    //     Route::get('/', 'index');
-    //     Route::post('/update/{id}', 'update');
-    //     Route::post('/update-image/{id}', 'updateImage');
-    //     Route::post('/update-password', 'updatePassword');
-    //     Route::post('/create-password', 'createPassword');
-    //     Route::post('/deactivate', 'deactivateAccount');
-    //     Route::post('/delete', 'deleteAccount');
-    // });
-
-    // Route::controller(ExperienceController::class)->prefix('default-experience')->group(function () {
-    //     Route::get('/', 'defaultExperience');
-    // });
-
-    // Route::controller(TripSearchController::class)->prefix('trip')->group(function () {
-    //     Route::get('/airports', 'getAirports');
-    //     Route::get('/', 'tripRecommendation');
-    // });
 });
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+
