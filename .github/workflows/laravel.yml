@@ -50,15 +50,15 @@ jobs:
     - name: Start Sail
       run: |
         ./vendor/bin/sail up -d
-    - name: Wait for MySQL
-      run: |
-        until ./vendor/bin/sail exec -T mysql mysqladmin ping -h"mysql" --silent; do
-          echo "Waiting for database..."
-          sleep 5
-        done
+    # - name: Wait for MySQL
+    #   run: |
+    #     until ./vendor/bin/sail exec -T mysql mysqladmin ping -h"mysql" --silent; do
+    #       echo "Waiting for database..."
+    #       sleep 5
+    #     done
     - name: Set Up Database
       run: |
-        ./vendor/bin/sail artisan migrate --seed
+        ./vendor/bin/sail artisan migrate --seed --force
     - name: Execute tests (Unit and Feature tests)
       run: |
         ./vendor/bin/sail test
