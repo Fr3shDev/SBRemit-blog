@@ -52,7 +52,7 @@ jobs:
       run: docker logs $(docker ps -q -f name=mysql)
     - name: Set Up Database
       run: |
-        ./vendor/bin/sail artisan migrate --seed --force
+        ./vendor/bin/sail artisan migrate
     - name: Execute tests (Unit and Feature tests)
       run: |
         ./vendor/bin/sail test
