@@ -19,16 +19,16 @@ jobs:
           MYSQL_USER: root
           MYSQL_PASSWORD: password
         ports:
-          - 3307:3306
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping -uroot -ppassword"
           --health-interval=10s
-          --health-timeout=10s
-          --health-retries=30
+          --health-timeout=5s
+          --health-retries=10
 
     env:
       DB_CONNECTION: mysql
-      DB_HOST: mysql
+      DB_HOST: 127.0.0.1  # Directly use localhost or 127.0.0.1
       DB_PORT: 3306
       DB_DATABASE: testing
       DB_USERNAME: root
@@ -46,18 +46,7 @@ jobs:
         composer install --no-interaction --prefer-dist
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-    - name: Start Sail
-      run: |
-        ./vendor/bin/sail up -d
-    - name: Wait for Sail to Be Ready
-      run: sleep 60  # Adjust this if necessary
-    - name: Sleep for MySQL to Start
-      run: sleep 60  # Adjust this if necessary
-    - name: Check MySQL Logs
-      run: docker logs $(docker ps -q -f name=mysql)
-    - name: Set Up Database
-      run: |
-        ./vendor/bin/sail artisan migrate
-    - name: Execute tests (Unit and Feature tests)
-      run: |
-        ./vendor/bin/sail test
+    - name: Run Migrations
+      run: php artisan migrate --seed --force
+    - name: Run Tests
+      run: php artisan test
