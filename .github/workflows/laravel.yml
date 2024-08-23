@@ -54,6 +54,10 @@ jobs:
           echo "Waiting for database..."
           sleep 1
         done
+        - name: Confirm MySQL Service Is Running
+          run: |
+            ./vendor/bin/sail exec mysql mysqladmin ping -h"mysql" -uroot -p$password
+
     - name: Set Up Database
       run: |
         ./vendor/bin/sail artisan migrate --seed
